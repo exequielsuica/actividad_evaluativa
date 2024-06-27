@@ -27,7 +27,7 @@ def categoryaddprocess(request):
     if request.method == 'POST':
         print(request.POST)
         catname = request.POST['txt1']
-        cur.execute("INSERT INTO `tb_category`(`category_name`) VALUES ('{}')".format(catname))
+        cur.execute("INSERT INTO `tb_category`(`category_name`,`is_deleted`) VALUES ('{}',{})".format(catname,12))
         conn.commit()
         return redirect(categorycreate) 
     else:
