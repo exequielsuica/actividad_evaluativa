@@ -4,5 +4,5 @@ CREATE TABLE Alumnos (
   apellido VARCHAR(50) DEFAULT NULL,
   dni VARCHAR(29) DEFAULT NULL,
   telefono VARCHAR(30) DEFAULT NULL,
-  CONSTRAINT PK_users PRIMARY KEY (id_user)
+  CONSTRAINT PK_users PRIMARY KEY (id_alumno)
 );

@@ -74,7 +74,7 @@ def alumnos_listing(request):
     return render(request, 'view_alumnos.html', {'alumnos': data})   
 
 def alumnos_create(request):
-    return render(request, 'add.html')   
+    return render(request, 'add_alumnos.html')   
 
 
 def alumnos_addprocess(request):
@@ -110,7 +110,7 @@ def alumnos_edit(request, id):
 def alumnos_update(request):
     if request.method == 'POST':
         print(request.POST)
-        catid = request.POST['txt1']
+        catid = request.POST.get('txt1')
         nombre = request.POST.get('nombre')
         apellido = request.POST.get('apellido')
         dni= request.POST.get('dni')
