@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
- 
-from django.http import HttpResponse
+
+from django.http import HttpResponse, HttpRequest
 # Create your views here.
 import mysql.connector as mcdb
 conn = mcdb.connect(host="db", user="root", passwd="12345678", database='ejemplo_db',port=3306)
@@ -64,3 +64,59 @@ def categoryupdate(request):
         return redirect(categorylisting) 
     else:
         return redirect(categorylisting)
+    
+
+##MIS CRUDS
+def alumnos_listing(request):
+    cur.execute("SELECT * FROM Alumnos")
+    data = cur.fetchall()
+    print(list(data))
+    return render(request, 'view_alumnos.html', {'alumnos': data})   
+
+def alumnos_create(request):
+    return render(request, 'add.html')   
+
+
+def alumnos_addprocess(request):
+    if request.method == 'POST':
+        print(request.POST)
+        nombre=request.POST.get('nombre')
+        apellido=request.POST.get('apellido')
+        dni=request.POST.get('dni')
+        telefono=request.POST.get('telefono')
+        cur.execute("INSERT INTO Alumnos (nombre, apellido, dni, telefono) VALUES (%s,%s,%s,%s)",(nombre,apellido,dni,telefono))
+        conn.commit()
+        return redirect(alumnos_create) 
+    else:
+        return redirect(alumnos_create)
+    
+def alumnos_delete(request, id):
+     
+    print(id)
+    cur.execute("delete from Alumnos where id_alumno = %s", (id,))
+    conn.commit()
+    return redirect(alumnos_listing)
+
+def alumnos_edit(request, id):
+     
+    print(id)
+    cur.execute("select * from Alumnos where id_alumno = %s", (id,))
+    data = cur.fetchone()
+    #return list(data)
+    print(list(data))
+    return render(request, 'edit_alumnos.html', {'alumnos': data})   
+
+
+def alumnos_update(request):
+    if request.method == 'POST':
+        print(request.POST)
+        catid = request.POST['txt1']
+        nombre = request.POST.get('nombre')
+        apellido = request.POST.get('apellido')
+        dni= request.POST.get('dni')
+        telefono=request.POST.get('telefono')
+        cur.execute("update Alumnos set nombre = %s, apellido = %s, dni =%s , telefono =%s where id_alumno=%s", (nombre,apellido,dni,telefono,catid))
+        conn.commit()
+        return redirect(alumnos_listing) 
+    else:
+        return redirect(alumnos_listing)
